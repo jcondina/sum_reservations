@@ -22,7 +22,8 @@ export async function POST(request: Request) {
 
 	if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
 		// Set a secure HTTP-only cookie
-		cookies().set("admin_token", "your-secure-token", {
+		const cookieStore = await cookies();
+		cookieStore.set("admin_token", "your-secure-token", {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === "production",
 			sameSite: "strict",

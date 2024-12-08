@@ -1,9 +1,9 @@
-import { Adapter, AdapterUser } from "next-auth/adapters";
+import { Adapter, AdapterAccount, AdapterUser } from "next-auth/adapters";
 import pool from "../db";
 
 export function SQLAdapter(): Adapter {
 	return {
-		async createUser(user) {
+		async createUser(user: AdapterUser) {
 			const query = `
 				INSERT INTO users (email, name, email_verified)
 				VALUES ($1, $2, $3)
@@ -52,7 +52,7 @@ export function SQLAdapter(): Adapter {
 			await pool.query("DELETE FROM users WHERE id = $1", [userId]);
 		},
 
-		async linkAccount(account) {
+		async linkAccount(account: AdapterAccount) {
 			const query = `
 				INSERT INTO accounts (
 					user_id,
@@ -77,7 +77,7 @@ export function SQLAdapter(): Adapter {
 			]);
 		},
 
-		async unlinkAccount({ providerAccountId, provider }) {
+		async unlinkAccount({ providerAccountId, provider }: { providerAccountId: string; provider: string }) {
 			await pool.query("DELETE FROM accounts WHERE provider_id = $1 AND provider_account_id = $2", [
 				provider,
 				providerAccountId,

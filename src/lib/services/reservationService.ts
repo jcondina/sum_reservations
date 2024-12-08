@@ -1,5 +1,5 @@
 import pool from "../db";
-import bcrypt from "bcrypt";
+// import bcrypt from "bcrypt";
 
 interface Reservation {
 	id: number;
@@ -226,14 +226,19 @@ export async function findUserByEmail(email: string): Promise<User | null> {
 	}
 }
 
-export async function validateUserCredentials(email: string, password: string): Promise<User | null> {
+interface UserCredentials {
+	email: string;
+	password: string;
+}
+
+export async function validateUserCredentials(credentials: UserCredentials): Promise<User | null> {
 	try {
 		const query = `
 			SELECT id, email, password, name, is_admin
 			FROM users
 			WHERE email = $1
 		`;
-		const result = await pool.query(query, [email]);
+		const result = await pool.query(query, [credentials.email]);
 		const user = result.rows[0];
 
 		if (!user || !user.password) {

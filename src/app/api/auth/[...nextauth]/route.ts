@@ -17,7 +17,7 @@ const handler = NextAuth({
 					return null;
 				}
 
-				const user = await validateUserCredentials(credentials.email, credentials.password);
+				const user = await validateUserCredentials(credentials);
 
 				if (!user) {
 					console.log("User not found");

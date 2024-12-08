@@ -29,6 +29,7 @@ export default function UserLogin() {
 			// Refresh the page to trigger the server-side session check
 			router.refresh();
 		} catch (error) {
+			console.error(error);
 			setError("An error occurred during login");
 		}
 	};

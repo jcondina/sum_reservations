@@ -17,8 +17,12 @@ export async function GET() {
 
 		const reservations = await getAdminReservations();
 		return NextResponse.json(reservations);
-	} catch (error: any) {
-		console.error("Error fetching admin reservations:", error.message);
+	} catch (error) {
+		if (error instanceof Error) {
+			console.error("Error fetching admin reservations:", error.message);
+		} else {
+			console.error("Error fetching admin reservations:", error);
+		}
 		return NextResponse.json({ error: "Failed to fetch reservations" }, { status: 500 });
 	}
 }
@@ -49,8 +53,12 @@ export async function PATCH(request: Request) {
 		}
 
 		return NextResponse.json(reservation);
-	} catch (error: any) {
-		console.error("Error updating reservation:", error.message);
+	} catch (error) {
+		if (error instanceof Error) {
+			console.error("Error updating reservation:", error.message);
+		} else {
+			console.error("Error updating reservation:", error);
+		}
 		return NextResponse.json({ error: "Failed to update reservation" }, { status: 500 });
 	}
 }

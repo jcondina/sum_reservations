@@ -28,6 +28,7 @@ export default function AdminLogin() {
 
 			router.push("/admin");
 		} catch (err) {
+			console.error(err);
 			setError("Invalid email or password");
 		}
 	};
